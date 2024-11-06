@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -9,7 +9,7 @@ import Navigation from './components/Navigation';
 
 const isAuthenticated = () => !!localStorage.getItem('token');
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children }: PropsWithChildren) => {
     if (!isAuthenticated()) {
         return <Navigate to="/login" replace />;
     }

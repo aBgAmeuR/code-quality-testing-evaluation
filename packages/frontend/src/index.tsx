@@ -2,6 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
+declare global {
+  interface Window {
+    AnimationEffectAPP_VERSION: string;
+    DEBUG: boolean;
+    API_URL: string;
+  }
+
+  interface NodeModule {
+    hot: {
+      accept(path: string, callback: () => void): void;
+    };
+  }
+}
+
 window.onerror = function(message, source, lineno, colno, error) {
   console.error('Global error:', { message, source, lineno, colno, error });
   return false;
@@ -21,7 +35,7 @@ if (!root) {
   throw new Error('Failed to find root element');
 }
 
-window.APP_VERSION = '1.0.0';
+window.AnimationEffectAPP_VERSION = '1.0.0';
 window.DEBUG = isDev;
 
 window.API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
@@ -74,7 +88,7 @@ window.addEventListener('error', (event) => {
 });
 
 if (isDev) {
-  const reportWebVitals = (metric) => {
+  const reportWebVitals = (metric = {}) => {
     console.log(metric);
   };
 

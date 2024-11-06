@@ -12,6 +12,10 @@
         "lint": "npm run lint --workspaces --if-present"
     },
     "devDependencies": {
-        "concurrently": "^8.2.0"
+        "concurrently": "^8.2.0",
+        "typescript": "^4.0.0"
+    },
+    "dependencies": {
+        "react-scripts": "^5.0.1"
     }
 }

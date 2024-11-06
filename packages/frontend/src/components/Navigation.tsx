@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../services/api';
+import { User } from '../types';
 
-const Navigation = () => {
+
+const Navigation: React.FC = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user: User | null = JSON.parse(localStorage.getItem('user') || 'null');
 
   const handleLogout = () => {
     logout();

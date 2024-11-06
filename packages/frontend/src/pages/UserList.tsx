@@ -1,26 +1,35 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { getUsers } from '../services/api';
+import { User } from '../types';
 
-const UserList = () => {
-  const [users, setUsers] = useState([])
-  const [error, setError] = useState(null)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [joinedFilter, setJoinedFilter] = useState('')
-  const [sortField, setSortField] = useState('name')
-  const [sortDirection, setSortDirection] = useState('asc')
+interface ExtendUser extends User {
+  searchableText?: string;
+  joinedDate?: Date;
+  joinedCategory?: string;
+  fullName?: string;
+  initials?: string;
+}
+
+const UserList: React.FC = () => {
+  const [users, setUsers] = useState<ExtendUser[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const [joinedFilter, setJoinedFilter] = useState<string>('')
+  const [sortField, setSortField] = useState<string>('name')
+  const [sortDirection, setSortDirection] = useState<string>('asc')
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const data = await getUsers()
-        const processedUsers = data.map(user => ({
+        const processedUsers: ExtendUser[] = data.map((user: User) => ({
           ...user,
           searchableText: `${user.firstname.toLowerCase()} ${user.lastname.toLowerCase()} ${user.username.toLowerCase()}`,
           joinedDate: new Date(user.created_at),
           joinedCategory: (() => {
             const created = new Date(user.created_at)
             const now = new Date()
-            const diffTime = Math.abs(now - created)
+            const diffTime = Math.abs(now.getTime() - created.getTime())
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
             return diffDays < 7 ? 'new' : diffDays < 30 ? 'recent' : 'old'
           })(),
@@ -36,15 +45,15 @@ const UserList = () => {
     fetchUsers()
   }, [])
 
-  const searchUsers = useCallback((user, term) => {
+  const searchUsers = useCallback((user: ExtendUser, term: string): boolean => {
     if (!term) return true
 
     const searchWords = term.toLowerCase().split(' ')
 
     const searchFields = [
-      user.searchableText,
-      user.fullName.toLowerCase(),
-      user.initials.toLowerCase(),
+      user.searchableText!,
+      user.fullName!.toLowerCase(),
+      user.initials!.toLowerCase(),
       new Date(user.created_at).toLocaleDateString()
     ]
 
@@ -61,7 +70,7 @@ const UserList = () => {
           const normalizedSearchWord = word.trim().toLowerCase()
 
           if (normalizedFieldWord.includes(normalizedSearchWord)) {
-            return true * option.weight
+            return true
           }
 
           const matrix = Array(normalizedFieldWord.length + 1).fill(null)
@@ -93,8 +102,8 @@ const UserList = () => {
     })
   }, [])
 
-  const sortUsers = useCallback((a, b) => {
-    let compareValueA, compareValueB
+  const sortUsers = useCallback((a: User, b: User): number => {
+    let compareValueA: string | number, compareValueB: string | number
 
     switch (sortField) {
       case 'name':
@@ -110,8 +119,8 @@ const UserList = () => {
         compareValueB = new Date(b.created_at).getTime()
         break
       default:
-        compareValueA = a[sortField]
-        compareValueB = b[sortField]
+        compareValueA = a[sortField as keyof User] as string | number
+        compareValueB = b[sortField as keyof User] as string | number
     }
 
     if (sortDirection === 'asc') {
@@ -130,7 +139,7 @@ const UserList = () => {
         if (joinedFilter) {
           const now = new Date()
           const userDate = new Date(user.created_at)
-          const diffTime = Math.abs(now - userDate)
+          const diffTime = Math.abs(now.getTime() - userDate.getTime())
           const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
           switch(joinedFilter) {

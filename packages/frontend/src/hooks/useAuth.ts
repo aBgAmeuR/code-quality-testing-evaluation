@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { User } from '../types'
 
 export const useAuth = () => {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -11,12 +12,12 @@ export const useAuth = () => {
     const userData = localStorage.getItem('user')
 
     if (token && userData) {
-      setUser(JSON.parse(userData))
+      setUser(JSON.parse(userData) as User)
     }
     setLoading(false)
   }, [])
 
-  const login = (token, userData) => {
+  const login = (token: string, userData: User) => {
     try {
       localStorage.setItem('token', token)
       localStorage.setItem('user', JSON.stringify(userData))

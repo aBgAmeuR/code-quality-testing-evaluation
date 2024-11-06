@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-const LoadingSpinner = () => {
+const LoadingSpinner: React.FC = () => {
   return (
     <div style={{
       display: 'flex',
@@ -24,9 +24,9 @@ const LoadingSpinner = () => {
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default LoadingSpinner
+export default LoadingSpinner;
 
 
