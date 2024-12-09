@@ -1,12 +1,12 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
-const initDatabase = require('./migrations/init');
+import sqlite3 from 'sqlite3';
+import path from 'path';
+import initDatabase from './migrations/init';
 
-let db = null;
+let db: sqlite3.Database | null = null;
 
 const DB_PATH = path.join(__dirname, '..', 'database.sqlite');
 
-const connect = async () => {
+const connect = async (): Promise<sqlite3.Database> => {
   if (db) {
     return db;
   }
@@ -24,9 +24,11 @@ const connect = async () => {
 
         // Run migrations
         try {
-          await initDatabase(db);
-          console.log('Database initialized');
-          resolve(db);
+          if (db) {
+            await initDatabase(db);
+            console.log('Database initialized');
+            resolve(db);
+          }
         } catch (initErr) {
           console.error('Error initializing database:', initErr);
           reject(initErr);
@@ -41,14 +43,14 @@ const connect = async () => {
 };
 
 // Get database instance - throws error if not connected
-const getDb = () => {
+const getDb = (): sqlite3.Database => {
   if (!db) {
     throw new Error('Database not connected. Call connect() first.');
   }
   return db;
 };
 
-const closeConnection = () => {
+const closeConnection = (): Promise<void> => {
   return new Promise((resolve, reject) => {
     if (!db) {
       resolve();
@@ -67,7 +69,7 @@ const closeConnection = () => {
   });
 };
 
-module.exports = {
+export {
   connect,
   getDb,
   closeConnection,

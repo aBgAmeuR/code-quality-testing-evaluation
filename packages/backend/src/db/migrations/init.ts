@@ -1,4 +1,7 @@
-const initDatabase = (db) => {
+import { Database } from 'sqlite3';
+import bcrypt from 'bcryptjs';
+
+const initDatabase = (db: Database): Promise<void> => {
   return new Promise((resolve, reject) => {
     db.serialize(() => {
       // Create Users table
@@ -12,7 +15,7 @@ const initDatabase = (db) => {
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           updated_at DATETIME
         )
-      `, (err) => {
+      `, (err: Error) => {
         if (err) {
           console.error('Error creating users table:', err);
           reject(err);
@@ -29,7 +32,7 @@ const initDatabase = (db) => {
           created_at DATETIME DEFAULT (datetime('now')),
           updated_at DATETIME
         )
-      `, (err) => {
+      `, (err: Error) => {
         if (err) {
           console.error('Error creating products table:', err);
           reject(err);
@@ -37,7 +40,7 @@ const initDatabase = (db) => {
       });
 
       // Add sample data if tables are empty
-      db.get('SELECT COUNT(*) as count FROM users', [], (err, result) => {
+      db.get('SELECT COUNT(*) as count FROM users', [], (err: Error, result: { count: number }) => {
         if (err) {
           console.error('Error checking users:', err);
           reject(err);
@@ -45,7 +48,6 @@ const initDatabase = (db) => {
         }
 
         if (result.count === 0) {
-          const bcrypt = require('bcryptjs');
           const hashedPassword = bcrypt.hashSync('admin123', 8);
 
           db.run(`
@@ -53,7 +55,7 @@ const initDatabase = (db) => {
             VALUES (?, ?, ?, ?)
           `,
               ['Admin', 'User', 'admin', hashedPassword],
-              (err) => {
+              (err: Error) => {
                 if (err) {
                   console.error('Error creating admin user:', err);
                   reject(err);
@@ -62,7 +64,7 @@ const initDatabase = (db) => {
         }
       });
 
-      db.get('SELECT COUNT(*) as count FROM products', [], (err, result) => {
+      db.get('SELECT COUNT(*) as count FROM products', [], (err: Error, result: { count: number }) => {
         if (err) {
           console.error('Error checking products:', err);
           reject(err);
@@ -80,7 +82,7 @@ const initDatabase = (db) => {
             db.run(
                 'INSERT INTO products (name, price, stock) VALUES (?, ?, ?)',
                 [name, price, stock],
-                (err) => {
+                (err: Error) => {
                   if (err) console.error('Error inserting product:', name, err);
                 }
             );
@@ -93,4 +95,4 @@ const initDatabase = (db) => {
   });
 };
 
-module.exports = initDatabase;
+export default initDatabase;

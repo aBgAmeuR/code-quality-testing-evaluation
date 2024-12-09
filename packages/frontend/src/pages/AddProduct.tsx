@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createProduct } from '../services/api';
 
-const AddProduct = () => {
-  const [name, setName] = useState('')
-  const [price, setPrice] = useState('')
-  const [stock, setStock] = useState('')
-  const [error, setError] = useState('')
+const AddProduct: React.FC = () => {
+  const [name, setName] = useState<string>('')
+  const [price, setPrice] = useState<string>('')
+  const [stock, setStock] = useState<string>('')
+  const [error, setError] = useState<string>('')
   const navigate = useNavigate()
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if(!name || !price || !stock) {
@@ -20,11 +20,11 @@ const AddProduct = () => {
     try {
       await createProduct({
         name,
-        price: price,
-        stock: stock
+        price: parseFloat(price),
+        stock: parseInt(stock)
       })
       navigate('/products')
-    } catch (err) {
+    } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to create product')
       console.error('Error creating product:', err)
     }

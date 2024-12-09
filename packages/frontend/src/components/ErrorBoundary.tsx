@@ -1,17 +1,22 @@
-import React from 'react'
+import React from 'react';
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = { hasError: false, error: null }
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+}
+
+class ErrorBoundary extends React.Component<React.PropsWithChildren<{}>, ErrorBoundaryState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = { hasError: false, error: null };
   }
 
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error }
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
   }
 
-  componentDidCatch(error, errorInfo) {
-    console.log('Error caught:', error, errorInfo)
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.log('Error caught:', error, errorInfo);
   }
 
   render() {
@@ -45,9 +50,11 @@ class ErrorBoundary extends React.Component {
             Reload Page
           </button>
         </div>
-      )
+      );
     }
 
-    return this.props.children
+    return this.props.children;
   }
 }
+
+export default ErrorBoundary;

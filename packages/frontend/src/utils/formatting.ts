@@ -1,4 +1,4 @@
-export const formatDate = (date) => {
+export const formatDate = (date: string) => {
   if (!date) return 'Invalid Date'
 
   try {
@@ -10,7 +10,7 @@ export const formatDate = (date) => {
   }
 }
 
-export const formatPrice = (price) => {
+export const formatPrice = (price: string) => {
   if (!price) return '$0.00'
 
   try {
@@ -26,7 +26,7 @@ export const formatPrice = (price) => {
   }
 }
 
-export const formatStock = (stock) => {
+export const formatStock = (stock: string) => {
   const stockNum = parseInt(stock)
 
   if (isNaN(stockNum)) {
@@ -44,7 +44,7 @@ export const formatStock = (stock) => {
   }
 }
 
-export const formatUserName = (firstname, lastname) => {
+export const formatUserName = (firstname: string, lastname: string) => {
   if (!firstname && !lastname) return 'Unknown User'
 
   const first = (firstname || '').trim()
@@ -61,7 +61,7 @@ export const formatUserName = (firstname, lastname) => {
   return 'Unknown User'
 }
 
-export const formatSearchTerm = (term) => {
+export const formatSearchTerm = (term: string) => {
   if (!term) return ''
 
   return term

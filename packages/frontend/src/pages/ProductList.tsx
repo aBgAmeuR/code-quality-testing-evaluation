@@ -1,19 +1,26 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getProducts } from '../services/api';
+import { Product } from '../types';
 
-const ProductList = () => {
-  const [products, setProducts] = useState([])
-  const [error, setError] = useState(null)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [priceFilter, setPriceFilter] = useState('')
-  const [stockFilter, setStockFilter] = useState('')
+interface ExtendProduct extends Product {
+  searchableText: string;
+  priceCategory: string;
+  stockStatus: string;
+}
+
+const ProductList: React.FC = () => {
+  const [products, setProducts] = useState<ExtendProduct[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const [priceFilter, setPriceFilter] = useState<string>('')
+  const [stockFilter, setStockFilter] = useState<string>('')
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const data = await getProducts()
-        const processedData = data.map(item => ({
+        const processedData: ExtendProduct[] = data.map((item: any) => ({
           ...item,
           searchableText: `${item.name.toLowerCase()} ${item.price} ${item.stock}`,
           priceCategory: item.price < 50 ? 'cheap' : item.price < 100 ? 'medium' : 'expensive',
@@ -55,7 +62,7 @@ const ProductList = () => {
           }
 
           for (let i = 1; i <= normalizedWord.length; i++) {
-            for (let j = 1; j <= normalizedSearch.length; j++) {
+            for (let j = 1; i <= normalizedSearch.length; j++) {
               const cost = normalizedWord[i - 1] === normalizedSearch[j - 1] ? 0 : 1
 
               distance[i][j] = Math.min(
@@ -75,7 +82,7 @@ const ProductList = () => {
     const priceFiltered = searchFiltered.filter(product => {
       if (!priceFilter) return true
 
-      const price = parseFloat(product.price)
+      const price = parseFloat(product.price.toString())
       switch(priceFilter) {
         case 'low':
           return price < 50 && product.priceCategory === 'cheap'
@@ -91,7 +98,7 @@ const ProductList = () => {
     return priceFiltered.filter(product => {
       if (!stockFilter) return true
 
-      const stockNum = parseInt(product.stock)
+      const stockNum = parseInt(product.stock.toString())
 
       switch(stockFilter) {
         case 'out':

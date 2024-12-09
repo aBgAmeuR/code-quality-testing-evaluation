@@ -1,12 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const db = require('./db/database');
-const userRoutes = require('./routes/userRoutes');
-const productRoutes = require('./routes/productRoutes');
+import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import * as db from './db/database';
+import userRoutes from './routes/userRoutes';
+import productRoutes from './routes/productRoutes';
 
 const app = express();
-
 
 app.use(cors({
   origin: '*',
@@ -21,21 +20,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/auth', userRoutes);
 app.use('/api', productRoutes);
 
-app.use((err, req, res, next) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
 
-app.use((req, res) => {
+app.use((req: Request, res: Response) => {
   res.status(404).json({ error: 'Not found' });
 });
 
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', (err: Error) => {
   console.error('Uncaught Exception:', err);
   process.exit(1);
 });
 
-process.on('unhandledRejection', (err) => {
+process.on('unhandledRejection', (err: Error) => {
   console.error('Unhandled Rejection:', err);
   process.exit(1);
 });
@@ -51,7 +50,7 @@ const startServer = async () => {
       console.log(`Server is running on port ${port}`);
     });
 
-    server.on('error', (err) => {
+    server.on('error', (err: Error) => {
       console.error('Server error:', err);
       process.exit(1);
     });
@@ -73,4 +72,4 @@ const startServer = async () => {
 
 startServer();
 
-module.exports = app;
+export default app;

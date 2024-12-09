@@ -1,12 +1,14 @@
-const db = require('../db/database');
+import { Request, Response } from 'express';
+import * as db from '../db/database';
+import { Product } from '../../types';
 
-exports.getAllProducts = (req, res) => {
+export const getAllProducts = (req: Request, res: Response): void => {
     const database = db.getDb();
 
     database.all(
         'SELECT * FROM products',
         [],
-        function (error, result) {
+        function (error: Error, result: Product[]) {
             if (error) {
                 res.status(400).json({"error": error.message});
                 return;
@@ -18,14 +20,14 @@ exports.getAllProducts = (req, res) => {
         });
 };
 
-exports.createProduct = (req, res) => {
-    const {name, price, stock} = req.body;
+export const createProduct = (req: Request, res: Response): void => {
+    const { name, price, stock }: Product = req.body;
     const database = db.getDb();
 
     database.run(
         `INSERT INTO products (name, price, stock) VALUES (?, ?, ?)`,
         [name, price, stock],
-        function(err) {
+        function(this: any, err: Error) {
             if (err) {
                 console.error(err);
                 return res.status(500).json({error: 'Error creating product'});
@@ -40,14 +42,14 @@ exports.createProduct = (req, res) => {
     );
 };
 
-exports.getProduct = (req, res) => {
-    const id = req.params.id;
+export const getProduct = (req: Request, res: Response): void => {
+    const id: string = req.params.id;
     const database = db.getDb();
 
     database.get(
         'SELECT * FROM products WHERE id = ?',
         [id],
-        (error, result) => {
+        (error: Error, result: Product) => {
             if (error) {
                 res.status(400).json({"error":error.message});
                 return;
@@ -60,15 +62,15 @@ exports.getProduct = (req, res) => {
     );
 };
 
-exports.updateStock = (req, res) => {
+export const updateStock = (req: Request, res: Response): void => {
     const { id } = req.params;
-    const { stock } = req.body;
+    const { stock }: { stock: number } = req.body;
     const database = db.getDb();
 
     database.run(
         `UPDATE products SET stock = ? WHERE id = ?`,
         [stock, id],
-        function(err) {
+        function(this: any, err: Error) {
             if (err) {
                 return res.status(500).json({error: 'Failed to update stock'});
             }
