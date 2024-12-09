@@ -1,9 +1,11 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const db = require('../db/database');
+import { Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import * as db from '../db/database';
+import { User } from '../../types';
 
-exports.registerUser = (req, res) => {
-    const { username, password, firstname, lastname } = req.body;
+export const registerUser = (req: Request, res: Response): void => {
+    const { username, password, firstname, lastname }: User = req.body;
 
     const hashedPassword = bcrypt.hashSync(password, 8);
 
@@ -12,7 +14,7 @@ exports.registerUser = (req, res) => {
     database.run(
         `INSERT INTO users (username, password, firstname, lastname) VALUES (?, ?, ?, ?)`,
         [username, hashedPassword, firstname, lastname],
-        function(err) {
+        function(this: any, err: Error) {
             if (err) {
                 console.error(err);
                 return res.status(500).json({ error: 'Error creating user' });
@@ -29,15 +31,15 @@ exports.registerUser = (req, res) => {
     );
 };
 
-exports.loginUser = (req, res) => {
-    const { username, password } = req.body;
+export const loginUser = (req: Request, res: Response): void => {
+    const { username, password }: User = req.body;
 
     const database = db.getDb();
 
     database.get(
         `SELECT * FROM users WHERE username = ?`,
         [username],
-        (err, user) => {
+        (err: Error, user: User) => {
             if (err) return res.status(500).json({ error: 'Error on the server.' });
             if (!user) return res.status(404).json({ error: 'No user found.' });
 
@@ -64,13 +66,13 @@ exports.loginUser = (req, res) => {
     );
 };
 
-exports.getAllUsers = (req, res) => {
+export const getAllUsers = (req: Request, res: Response): void => {
     const database = db.getDb();
 
     database.all(
         `SELECT id, username, firstname, lastname, created_at FROM users`,
         [],
-        (err, users) => {
+        (err: Error, users: User[]) => {
             if (err) {
                 console.error(err);
                 return res.status(500).json({ error: 'Error getting users' });
