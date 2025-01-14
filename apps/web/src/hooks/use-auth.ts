@@ -1,29 +1,21 @@
-import { useState, useEffect } from "react";
+"use client";
 
 import { log } from "@repo/logger";
 import { useRouter } from "next/navigation";
 
 import { User } from "../types";
+import { useStore } from "~/lib/store";
 
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const user = useStore((state) => state.user);
+  const setUser = useStore((state) => state.setUser);
+  const setToken = useStore((state) => state.setToken);
+  const loading = user === null;
   const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userData = localStorage.getItem("user");
-
-    if (token && userData) {
-      setUser(JSON.parse(userData) as User);
-    }
-    setLoading(false);
-  }, []);
 
   const login = (token: string, userData: User) => {
     try {
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(userData));
+      setToken(token);
       setUser(userData);
     } catch (err) {
       log("Failed to save auth data:", err);
@@ -31,8 +23,7 @@ export const useAuth = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    setToken(null);
     setUser(null);
     router.push("/login");
   };

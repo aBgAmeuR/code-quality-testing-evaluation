@@ -47,5 +47,6 @@ module.exports = {
     'no-sync': 'off',
     'import/no-default-export': 'off',
     'arrow-body-style': 'off',
+    'empty-import-meta': 'off'
   }
 };

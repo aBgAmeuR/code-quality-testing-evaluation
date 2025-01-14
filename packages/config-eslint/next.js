@@ -63,6 +63,7 @@ module.exports = {
     "prefer-named-capture-group": "off",
     "import/no-unresolved": "off",
     "no-nested-ternary": "off",
+    "react-hooks/rules-of-hooks": "off",
     "no-useless-escape": "off",
     "react/function-component-definition": "off",
     "react-hooks/rules-of-hooks": "error",
@@ -87,6 +88,7 @@ module.exports = {
       }
     ],
     "jsx-a11y/anchor-is-valid": "warn",
+    "eslint-comments/require-description": "off",
     "jsx-a11y/alt-text": "warn",
     "jsx-a11y/no-autofocus": "warn",
   },

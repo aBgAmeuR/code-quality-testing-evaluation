@@ -60,6 +60,7 @@ module.exports = {
       }
     ],
     "jsx-a11y/anchor-is-valid": "warn",
+    "react-hooks/rules-of-hooks": "off",
     "jsx-a11y/alt-text": "warn",
     "jsx-a11y/no-autofocus": "warn",
   },

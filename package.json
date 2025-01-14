@@ -11,9 +11,12 @@
     "typecheck": "turbo run typecheck",
     "ui": "npm run -w @repo/ui ui --",
     "prepare": "husky install",
-    "test:coverage": "turbo run test:coverage"
+    "test:coverage": "turbo run test:coverage",
+    "lighthouse:desktop": "npm run build && lhci collect --config=.lighthouserc.desktop.js && lhci upload && lhci assert",
+    "lighthouse:mobile": "npm run build && lhci collect --config=.lighthouserc.mobile.js && lhci upload && lhci assert"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.14.0",
     "config-prettier": "*",
     "husky": "^8.0.0",
     "lint-staged": "^13.0.3",

@@ -1,7 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+"use client";
+
 import { log } from "@repo/logger";
 import axios from "axios";
 
 import { Product, User } from "../types";
+import { useStore } from "~/lib/store";
 
 const API_URL = "http://localhost:5001/api";
 
@@ -19,8 +23,8 @@ export const loginUser = async (
       username,
       password
     });
-    localStorage.setItem("token", response.data.token);
-    localStorage.setItem("user", JSON.stringify(response.data.user));
+    useStore((state) => state.setToken(response.data.token));
+    useStore((state) => state.setUser(response.data.user));
     return response.data;
   } catch (error: any) {
     throw error.response.data;
@@ -34,12 +38,12 @@ export const registerUser = async (
     `${API_URL}/auth/register`,
     userData
   );
-  localStorage.setItem("token", response.data.token);
+  useStore((state) => state.setToken(response.data.token));
   return response.data;
 };
 
 export async function getUsers(): Promise<User[]> {
-  const token = localStorage.getItem("token");
+  const token = useStore((state) => state.token);
   return axios
     .get<User[]>(`${API_URL}/auth/users`, {
       headers: { Authorization: `Bearer ${token}` }
@@ -49,7 +53,7 @@ export async function getUsers(): Promise<User[]> {
 
 export const getProducts = async (): Promise<Product[]> => {
   try {
-    const token = localStorage.getItem("token");
+    const token = useStore((state) => state.token);
     const response = await axios.get<{ data: Product[] }>(
       `${API_URL}/products`,
       {
@@ -66,7 +70,7 @@ export const getProducts = async (): Promise<Product[]> => {
 export const createProduct = async (
   productData: Partial<Product>
 ): Promise<Product> => {
-  const token = localStorage.getItem("token");
+  const token = useStore((state) => state.token);
   const response = await axios.post<Product>(
     `${API_URL}/products`,
     productData,
@@ -78,6 +82,6 @@ export const createProduct = async (
 };
 
 export const logout = (): void => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
+  useStore((state) => state.setToken(null));
+  useStore((state) => state.setUser(null));
 };

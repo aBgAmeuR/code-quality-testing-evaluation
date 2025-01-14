@@ -1,15 +1,18 @@
+"use client";
+
 import { useState, useCallback } from "react";
 
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
+import { useStore } from "~/lib/store";
+
 export const useApi = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const token = useStore((state) => state.token);
 
   const request = useCallback(
     async (config: AxiosRequestConfig): Promise<any> => {
-      const token = localStorage.getItem("token");
-
       try {
         setLoading(true);
         setError(null);
@@ -30,7 +33,7 @@ export const useApi = () => {
         setLoading(false);
       }
     },
-    []
+    [token]
   );
 
   const get = (url: string) => request({ method: "GET", url });

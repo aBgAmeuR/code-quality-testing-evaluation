@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import { Button } from "@repo/ui/button";
@@ -5,11 +7,11 @@ import { Link } from "@repo/ui/link";
 import { useRouter } from "next/navigation";
 
 import { logout } from "../services/api";
-import { User } from "../types";
+import { useStore } from "~/lib/store";
 
 const Navigation: React.FC = () => {
   const router = useRouter();
-  const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
+  const user = useStore((state) => state.user);
 
   const handleLogout = () => {
     logout();
