@@ -1,0 +1,25 @@
+{
+  "name": "@repo/eslint-config",
+  "license": "MIT",
+  "version": "0.0.0",
+  "private": true,
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.0",
+    "@vercel/style-guide": "^6.0.0",
+    "eslint-config-turbo": "^2.3.3",
+    "eslint-config-next": "^15.1.2",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-mdx": "^3.1.5",
+    "eslint-plugin-only-warn": "^1.1.0",
+    "eslint-plugin-storybook": "^0.11.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-tailwindcss": "^3.17.5",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-config-node": "^4.1.0",
+    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "typescript": "5.5.4",
+    "prettier": "^3.2.5"
+  }
+}

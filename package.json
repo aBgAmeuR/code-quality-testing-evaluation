@@ -1,24 +1,46 @@
 {
-    "name": "code-quality-testing-evaluation",
-    "version": "1.0.0",
-    "private": true,
-    "workspaces": [
-        "packages/*"
-    ],
-    "scripts": {
-        "start": "concurrently \"npm run start --workspace=backend\" \"npm run start --workspace=frontend\"",
-        "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run start --workspace=frontend\"",
-        "test": "npm run test --workspaces --if-present",
-        "lint": "npm run lint --workspaces --if-present"
-    },
-    "devDependencies": {
-        "concurrently": "^8.2.0",
-        "typescript": "^5.3.3"
-    },
-    "dependencies": {
-        "react-scripts": "^5.0.1"
-    },
-    "overrides": {
-        "typescript": "^5.3.3"
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "clean": "turbo run clean",
+    "start": "turbo run start",
+    "dev": "turbo run dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "ui": "npm run -w @repo/ui ui --",
+    "prepare": "husky install",
+    "test:coverage": "turbo run test:coverage"
+  },
+  "devDependencies": {
+    "config-prettier": "*",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^3.2.5",
+    "turbo": "^2.3.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "name": "code-quality-testing-evaluation",
+  "packageManager": "npm@10.9.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --cache --fix"
+    ]
+  },
+  "dependencies": {
+    "axios": "^1.7.9"
+  }
 }
