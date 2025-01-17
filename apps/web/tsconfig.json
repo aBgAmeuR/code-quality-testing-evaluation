@@ -1,6 +1,6 @@
 {
   "exclude": ["node_modules"],
-  "extends": "@repo/typescript-config/react-library.json",
+  "extends": "@repo/typescript-config/nextjs.json",
   "compilerOptions": {
     "outDir": "dist",
     "plugins": [
@@ -14,7 +14,10 @@
     "allowJs": true,
     "incremental": true,
     "resolveJsonModule": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["jest", "@testing-library/jest-dom"]
   },
   "include": [
     ".",

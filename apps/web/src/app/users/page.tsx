@@ -204,12 +204,14 @@ const UserList = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="p-2 rounded border border-gray-300 flex-1"
+          data-testid="search-input"
         />
 
         <select
           value={joinedFilter}
           onChange={(e) => setJoinedFilter(e.target.value)}
           className="p-2 rounded border border-gray-300"
+          data-testid="joined-filter"
         >
           <option value="">All Users</option>
           <option value="week">Joined this week</option>
@@ -221,6 +223,7 @@ const UserList = () => {
           value={sortField}
           onChange={(e) => setSortField(e.target.value)}
           className="p-2 rounded border border-gray-300"
+          data-testid="sort-field"
         >
           <option value="name">Sort by Name</option>
           <option value="username">Sort by Username</option>
@@ -231,6 +234,7 @@ const UserList = () => {
           onClick={() =>
             setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"))
           }
+          data-testid="sort-direction"
         >
           {sortDirection === "asc" ? "↑" : "↓"}
         </Button>
@@ -245,6 +249,7 @@ const UserList = () => {
           <div
             key={user.id}
             className="border border-gray-300 rounded-lg p-4 bg-white flex justify-between items-center"
+            data-testid={`user-${user.id}`}
           >
             <div>
               <h3 className="mb-1">
