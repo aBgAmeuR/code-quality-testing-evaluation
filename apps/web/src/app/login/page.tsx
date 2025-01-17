@@ -24,79 +24,34 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "0 auto",
-        padding: "20px",
-        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-        borderRadius: "8px"
-      }}
-    >
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Login</h2>
+    <div className="max-w-md mx-auto p-5 shadow-lg rounded-lg">
+      <h2 className="text-center mb-5">Login</h2>
       {error ? (
-        <div
-          style={{
-            color: "red",
-            marginBottom: "10px",
-            padding: "10px",
-            backgroundColor: "#ffebee",
-            borderRadius: "4px"
-          }}
-        >
-          {error}
-        </div>
+        <div className="text-red-600 mb-3 p-3 bg-red-100 rounded">{error}</div>
       ) : null}
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px"
-        }}
-      >
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ddd"
-          }}
+          className="p-2 rounded border border-gray-300"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ddd"
-          }}
+          className="p-2 rounded border border-gray-300"
         />
         <button
           type="submit"
-          style={{
-            padding: "10px",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer"
-          }}
+          className="p-2 bg-green-600 text-white rounded cursor-pointer"
         >
           Login
         </button>
       </form>
-      <p
-        style={{
-          textAlign: "center",
-          marginTop: "20px"
-        }}
-      >
+      <p className="text-center mt-5">
         Don&apos;t have an account? <Link href="/register">Register</Link>
       </p>
     </div>

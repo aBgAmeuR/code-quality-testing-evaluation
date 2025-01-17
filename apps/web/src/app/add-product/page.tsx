@@ -39,51 +39,20 @@ const AddProduct = () => {
   if (!isAuthenticated()) return router.push("/login");
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "0 auto",
-        padding: "20px",
-        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-        borderRadius: "8px"
-      }}
-    >
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-        Add New Product
-      </h2>
+    <div className="max-w-md mx-auto p-5 shadow-lg rounded-lg">
+      <h2 className="text-center mb-5">Add New Product</h2>
 
       {error ? (
-        <div
-          style={{
-            color: "red",
-            marginBottom: "10px",
-            padding: "10px",
-            backgroundColor: "#ffebee",
-            borderRadius: "4px"
-          }}
-        >
-          {error}
-        </div>
+        <div className="text-red-600 mb-3 p-3 bg-red-100 rounded">{error}</div>
       ) : null}
 
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px"
-        }}
-      >
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
           placeholder="Product Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ddd"
-          }}
+          className="p-2 rounded border border-gray-300"
         />
 
         <input
@@ -91,11 +60,7 @@ const AddProduct = () => {
           placeholder="Price"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ddd"
-          }}
+          className="p-2 rounded border border-gray-300"
         />
 
         <input
@@ -103,41 +68,21 @@ const AddProduct = () => {
           placeholder="Stock"
           value={stock}
           onChange={(e) => setStock(e.target.value)}
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ddd"
-          }}
+          className="p-2 rounded border border-gray-300"
         />
 
-        <div style={{ display: "flex", gap: "10px" }}>
+        <div className="flex gap-2">
           <button
             type="button"
             onClick={() => router.push("/products")}
-            style={{
-              flex: 1,
-              padding: "10px",
-              backgroundColor: "#f44336",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer"
-            }}
+            className="flex-1 p-2 bg-red-600 text-white rounded cursor-pointer"
           >
             Cancel
           </button>
 
           <button
             type="submit"
-            style={{
-              flex: 1,
-              padding: "10px",
-              backgroundColor: "#4CAF50",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer"
-            }}
+            className="flex-1 p-2 bg-green-600 text-white rounded cursor-pointer"
           >
             Add Product
           </button>
