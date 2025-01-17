@@ -1,9 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [".env"],
+  "globalEnv": ["DB_PATH"],
   "tasks": {
     "build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "dependsOn": ["^build"],
+      "env": ["DB_PATH"],
       "outputs": [
         "build/**",
         ".vercel/**",
@@ -13,10 +16,12 @@
       ]
     },
     "test": {
+      "env": ["DB_PATH"],
       "outputs": ["coverage/**"],
       "dependsOn": []
     },
     "test:coverage": {
+      "env": ["DB_PATH"],
       "outputs": ["coverage/**"],
       "dependsOn": []
     },
@@ -27,6 +32,7 @@
       "dependsOn": ["^build"]
     },
     "dev": {
+      "env": ["DB_PATH"],
       "dependsOn": ["^build"],
       "cache": false,
       "persistent": true

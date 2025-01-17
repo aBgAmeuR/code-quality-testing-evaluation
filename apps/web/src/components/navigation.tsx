@@ -7,11 +7,11 @@ import { Link } from "@repo/ui/link";
 import { useRouter } from "next/navigation";
 
 import { logout } from "../services/api";
-import { useStore } from "~/lib/store";
+import { User } from "~/types";
 
 const Navigation: React.FC = () => {
   const router = useRouter();
-  const user = useStore((state) => state.user);
+  const user: User | null = JSON.parse(localStorage.getItem("user") || "null");
 
   const handleLogout = () => {
     logout();

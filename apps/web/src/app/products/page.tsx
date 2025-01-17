@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { log } from "@repo/logger";
 import { Button } from "@repo/ui/button";
@@ -134,49 +134,27 @@ const ProductList = () => {
   if (!isAuthenticated()) return router.push("/login");
 
   return (
-    <div style={{ padding: "20px" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px"
-        }}
-      >
+    <div className="p-5">
+      <div className="flex justify-between items-center mb-5">
         <h2>Products</h2>
         <Link href="/add-product">
           <Button>Add Product</Button>
         </Link>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-          marginBottom: "20px"
-        }}
-      >
+      <div className="flex gap-2 mb-5">
         <input
           type="text"
           placeholder="Search products..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ddd",
-            flex: 1
-          }}
+          className="p-2 rounded border border-gray-300 flex-1"
         />
 
         <select
           value={priceFilter}
           onChange={(e) => setPriceFilter(e.target.value)}
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ddd"
-          }}
+          className="p-2 rounded border border-gray-300"
         >
           <option value="">All Prices</option>
           <option value="low">Low (&lt; $50)</option>
@@ -187,11 +165,7 @@ const ProductList = () => {
         <select
           value={stockFilter}
           onChange={(e) => setStockFilter(e.target.value)}
-          style={{
-            padding: "8px",
-            borderRadius: "4px",
-            border: "1px solid #ddd"
-          }}
+          className="p-2 rounded border border-gray-300"
         >
           <option value="">All Stock</option>
           <option value="out">Out of Stock</option>
@@ -201,45 +175,21 @@ const ProductList = () => {
       </div>
 
       {error ? (
-        <div
-          style={{
-            color: "red",
-            padding: "10px",
-            backgroundColor: "#ffebee",
-            marginBottom: "20px",
-            borderRadius: "4px"
-          }}
-        >
-          {error}
-        </div>
+        <div className="text-red-600 p-3 bg-red-100 mb-5 rounded">{error}</div>
       ) : null}
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-          gap: "20px"
-        }}
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {filteredProducts.map((product) => (
           <div
             key={product.id}
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-              padding: "15px",
-              backgroundColor: "white"
-            }}
+            className="border border-gray-300 rounded-lg p-4 bg-white"
           >
-            <h3 style={{ margin: "0 0 10px 0" }}>{product.name}</h3>
-            <p style={{ margin: "5px 0", color: "#666" }}>
-              Price: ${product.price}
-            </p>
+            <h3 className="mb-2">{product.name}</h3>
+            <p className="mb-1 text-gray-600">Price: ${product.price}</p>
             <p
-              style={{
-                margin: "5px 0",
-                color: product.stock > 0 ? "#4CAF50" : "#f44336"
-              }}
+              className={`mb-1 ${
+                product.stock > 0 ? "text-green-600" : "text-red-600"
+              }`}
             >
               Stock: {product.stock}
             </p>
@@ -248,7 +198,7 @@ const ProductList = () => {
       </div>
 
       {filteredProducts.length === 0 && (
-        <p style={{ textAlign: "center", color: "#666" }}>
+        <p className="text-center text-gray-600">
           No products found matching your criteria
         </p>
       )}
