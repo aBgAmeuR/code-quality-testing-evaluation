@@ -5,6 +5,9 @@ export const formatDate = (date: string) => {
 
   try {
     const d = new Date(date);
+    if (isNaN(d.getTime())) {
+      return "Invalid Date";
+    }
     return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
   } catch (e) {
     log("Date formatting error:", e);

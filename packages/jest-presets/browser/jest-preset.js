@@ -1,3 +1,6 @@
+import '@testing-library/jest-dom'
+import '@testing-library/jest-dom/jest-globals'
+
 const config = {
   roots: ["<rootDir>"],
   testEnvironment: "jsdom",
@@ -10,6 +13,7 @@ const config = {
     "<rootDir>/node_modules",
     "<rootDir>/dist",
   ],
+  setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
   preset: "ts-jest/presets/default-esm",
 };
 

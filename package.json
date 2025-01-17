@@ -13,7 +13,8 @@
     "prepare": "husky install",
     "test:coverage": "turbo run test:coverage",
     "lighthouse:desktop": "npm run build && lhci collect --config=.lighthouserc.desktop.js && lhci upload && lhci assert",
-    "lighthouse:mobile": "npm run build && lhci collect --config=.lighthouserc.mobile.js && lhci upload && lhci assert"
+    "lighthouse:mobile": "npm run build && lhci collect --config=.lighthouserc.mobile.js && lhci upload && lhci assert",
+    "test:e2e": "turbo run test:e2e"
   },
   "devDependencies": {
     "@lhci/cli": "^0.14.0",

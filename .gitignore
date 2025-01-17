@@ -13,3 +13,4 @@ public/dist
 coverage
 .eslintcache
 .lighthouseci
+test-results

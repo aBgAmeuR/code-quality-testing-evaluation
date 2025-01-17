@@ -54,44 +54,11 @@ const ProductList = () => {
     const searchFiltered = products.filter((product) => {
       if (!searchTerm) return true;
 
-      const searchWords = searchTerm.toLowerCase().split(" ");
-
-      const searchableWords = product.searchableText.split(" ");
-
-      return searchWords.every((searchWord) =>
-        searchableWords.some((word) => {
-          const normalizedWord = word.toLowerCase().trim();
-          const normalizedSearch = searchWord.toLowerCase().trim();
-
-          // Levenshtein distance calculation for fuzzy matching
-          const distance = Array(normalizedWord.length + 1)
-            .fill(null)
-            .map(() => Array(normalizedSearch.length + 1).fill(null));
-
-          for (let i = 0; i <= normalizedWord.length; i++) {
-            distance[i][0] = i;
-          }
-
-          for (let j = 0; j <= normalizedSearch.length; j++) {
-            distance[0][j] = j;
-          }
-
-          for (let i = 1; i <= normalizedWord.length; i++) {
-            for (let j = 1; i <= normalizedSearch.length; j++) {
-              const cost =
-                normalizedWord[i - 1] === normalizedSearch[j - 1] ? 0 : 1;
-
-              distance[i][j] = Math.min(
-                distance[i - 1][j] + 1,
-                distance[i][j - 1] + 1,
-                distance[i - 1][j - 1] + cost
-              );
-            }
-          }
-
-          // Allow for fuzzy matching with a threshold
-          return distance[normalizedWord.length][normalizedSearch.length] <= 2;
-        })
+      return (
+        product.searchableText.includes(searchTerm.toLowerCase()) ||
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.price.toString().includes(searchTerm) ||
+        product.stock.toString().includes(searchTerm)
       );
     });
 
@@ -149,12 +116,14 @@ const ProductList = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="p-2 rounded border border-gray-300 flex-1"
+          data-testid="search-input"
         />
 
         <select
           value={priceFilter}
           onChange={(e) => setPriceFilter(e.target.value)}
           className="p-2 rounded border border-gray-300"
+          data-testid="price-filter"
         >
           <option value="">All Prices</option>
           <option value="low">Low (&lt; $50)</option>
@@ -166,6 +135,7 @@ const ProductList = () => {
           value={stockFilter}
           onChange={(e) => setStockFilter(e.target.value)}
           className="p-2 rounded border border-gray-300"
+          data-testid="stock-filter"
         >
           <option value="">All Stock</option>
           <option value="out">Out of Stock</option>
@@ -183,6 +153,7 @@ const ProductList = () => {
           <div
             key={product.id}
             className="border border-gray-300 rounded-lg p-4 bg-white"
+            data-testid={`product-${product.id}`}
           >
             <h3 className="mb-2">{product.name}</h3>
             <p className="mb-1 text-gray-600">Price: ${product.price}</p>
