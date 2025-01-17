@@ -60,9 +60,15 @@ const closeConnection = (): Promise<void> => {
       return;
     }
 
-    db.close((err) =>
-      err ? reject(log('Error closing database:', err)) : resolve()
-    );
+    db.close((err) => {
+      if (err) {
+        log('Error closing database:', err);
+        reject(err);
+      } else {
+        db = null;
+        resolve();
+      }
+    });
   });
 };
 
