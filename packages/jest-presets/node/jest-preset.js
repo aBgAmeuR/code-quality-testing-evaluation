@@ -9,7 +9,7 @@ const config = {
     "<rootDir>/node_modules",
     "<rootDir>/dist",
   ],
-  preset: "ts-jest",
+  preset: "ts-jest/presets/default-esm",
 };
 
-export default config;
+module.exports = config;
