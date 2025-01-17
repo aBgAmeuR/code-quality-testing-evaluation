@@ -10,8 +10,8 @@ const config = {
     "<rootDir>/node_modules",
     "<rootDir>/dist",
   ],
-  setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
   preset: "ts-jest/presets/default-esm",
+  testMatch: ["<rootDir>/src/__tests__/**/*.test.[jt]s?(x)"],
 };
 
 module.exports = config;
