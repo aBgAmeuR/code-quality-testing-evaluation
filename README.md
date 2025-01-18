@@ -79,17 +79,17 @@ chore: update eslint configuration
 
 ### 3. Testing Implementation
 - [x] Configure Jest for both packages
-- [ ] Implement test coverage reporting with minimum thresholds:
+- [x] Implement test coverage reporting with minimum thresholds:
   - Statements: 80%
   - Branches: 75%
   - Functions: 80%
   - Lines: 80%
-- [ ] Frontend Tests:
+- [x] Frontend Tests:
   - Unit tests for all components
   - Integration tests for forms
   - Mock API calls
   - Test authentication flow
-- [ ] Backend Tests:
+- [x] Backend Tests:
   - Unit tests for controllers
   - Integration tests for API endpoints
   - Database operation tests
@@ -122,7 +122,7 @@ chore: update eslint configuration
 
 ### 3. Additional Features
 - [ ] Add product categories
-- [ ] Implement product search
+- [x] Implement product search
 - [ ] Add product sorting and filtering
 - [ ] Implement pagination
 - [ ] Add user roles (admin/user)
@@ -135,8 +135,11 @@ npm install
 # Start development servers
 npm run dev
 
-# Run tests
-npm run test
+# Run tests coverage
+npm run test:coverage
+
+# Run tests end-to-end
+npm run test:e2e
 
 # Run lint
 npm run lint
